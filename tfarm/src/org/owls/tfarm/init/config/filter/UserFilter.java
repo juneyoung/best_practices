@@ -18,8 +18,6 @@ public class UserFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		request.setAttribute("user", request.getServletContext().getAttribute("user"));
-		chain.doFilter(request, response);
 	}
 
 	@Override

@@ -46,24 +46,8 @@
 	  				return;
 	  			}
 	  		});
+	  		
 	  	}
-	  	
-	 	function loginIfPassword(){
-	 		var id = document.querySelector('[name="id"]').value;
-	 		var pw = document.querySelector('[name="password"]').value;
-	 		if(id.trim().length > 0 && pw.trim().length > 0){
-	 			login();
-	 		}
-	 	}
-	 	
-	 	window.addEventListener('load', function(){
-		 	document.querySelector('[password-field]').addEventListener('keyup', function(e){
-		 		if(e.keyCode == 13){
-			 		loginIfPassword();
-		 		}
-		 	}, false);
-	 	}, false);
-	 	
 	  </script>
 	</head>
 	<body class="hold-transition login-page">
@@ -81,11 +65,10 @@
 	      <fieldset>
 		      <div class="form-group has-feedback">
 		        <input type="text" class="form-control" name="id" placeholder="ID">
-		        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-<!-- 		        <span class="glyphicon glyphicon-envelope form-control-feedback"></span> -->
+		        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 		      </div>
 		      <div class="form-group has-feedback">
-		        <input type="password" password-field class="form-control" name="password" placeholder="Password">
+		        <input type="password" class="form-control" name="password" placeholder="Password">
 		        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 		      </div>
 	      </fieldset>
@@ -101,7 +84,7 @@
 	        <!-- /.col -->
 	        <div class="col-xs-4">
 <!-- 	          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button> -->
-	          <button type="button" login-button onclick="javascript:login();" class="btn btn-primary btn-block btn-flat">Sign In</button>
+	          <button type="button" onclick="javascript:login();" class="btn btn-primary btn-block btn-flat">Sign In</button>
 	        </div>
 	        <!-- /.col -->
 	      </div>
@@ -115,8 +98,8 @@
 <!-- 	        Google+</a> -->
 <!-- 	    </div> -->
 	
-	    <a href="page/member/password">I forgot my password</a><br>
-	    <a href="page/member/register" class="text-center">Register a new membership</a>
+	    <a href="member/password">I forgot my password</a><br>
+	    <a href="member/register" class="text-center">Register a new membership</a>
 	
 	  </div>
 	  <!-- /.login-box-body -->

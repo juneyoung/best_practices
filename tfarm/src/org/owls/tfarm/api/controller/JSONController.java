@@ -1,20 +1,22 @@
 package org.owls.tfarm.api.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.owls.tfarm.api.service.mongo.ApiService;
-import org.owls.tfarm.common.action.CommonApiMongoController;
+import org.owls.tfarm.common.action.mongo.CommonMongoController;
+import org.owls.tfarm.utils.http.HttpRequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-//무조건 json.jsp 로 보내며 Object 이름은 result 로 보낸다.
 @Controller
 @RequestMapping(value={"api"}, produces={"application/json", "text/html"})
-public class JSONController implements CommonApiMongoController<String, ModelAndView, Exception> {
+public class JSONController implements CommonMongoController<String, ModelAndView, Exception> {
 	
 	private final String VIEW = "api/json";
 	
@@ -27,7 +29,7 @@ public class JSONController implements CommonApiMongoController<String, ModelAnd
 		System.out.println("READ API CALLED");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(VIEW);
-		mav.addObject("result", service.read(col, req.getParameter("id")));
+		mav.addObject("result", service.findOne(col, req.getParameter("id")));
 		return mav;
 	}
 
@@ -35,10 +37,35 @@ public class JSONController implements CommonApiMongoController<String, ModelAnd
 	@RequestMapping(value={ "list/{col}" })
 	public ModelAndView list(@PathVariable String col, HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		// HttpServletRequest 의 queryString 을 받아서 Criteria를 생성한다.
-		// 단, 페이징 관련한 파라미터는 예약어로 잡혀있으며 내부에서 치환한다. 
 		mav.setViewName(VIEW);
-		mav.addObject("result", service.list(col));
+		mav.addObject("result", service.findAll(col, null));
 		return mav;
 	}
-}
+	
+	@Override
+	@RequestMapping(value={ "create/{col}" })
+	public ModelAndView create(@PathVariable String col, HttpServletRequest req, HttpServletRequest resp) throws Exception {
+		// TODO Auto-generated method stub
+		ModelAndView mav = new ModelAndView();
+		Map<String, String> param = HttpRequestUtils.flatRequest(req);
+		service.insert(col, param);
+		mav.setViewName(VIEW);
+		return mav;
+	}
+
+	@Override
+	@RequestMapping(value={"update/{col}"})
+	public ModelAndView update(@PathVariable String col, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(VIEW);
+		return mav;
+	}
+
+	@Override
+	@RequestMapping(value={"delete/{col}"})
+	public ModelAndView delete(@PathVariable String col, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(VIEW);
+		return mav;
+	}
+};

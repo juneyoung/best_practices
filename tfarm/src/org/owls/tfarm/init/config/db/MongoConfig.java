@@ -1,6 +1,5 @@
 package org.owls.tfarm.init.config.db;
 
-//import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 
@@ -18,7 +17,6 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	}
 
 	@Override
-//	@Bean
 	public Mongo mongo() throws Exception {
 		return new MongoClient(MONGO_URL, MONGO_PORT);
 	}

@@ -1,5 +1,9 @@
 package org.owls.tfarm.utils.http;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,7 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class HttpRequestInspector {
+public class HttpRequestUtils {
 	public static final String PARAM = "parameter";
 	public static final String HEADER = "header";
 	public static final String ATTR = "attribute";
@@ -25,7 +29,6 @@ public class HttpRequestInspector {
 			System.out.println("HEADER [key] : " + key + " [ value ] : " + value);
 		}
 	}
-	
 	
 	private static void printParameters(HttpServletRequest request) {
 		Map<String, String[]> paramMap = request.getParameterMap();
@@ -78,4 +81,40 @@ public class HttpRequestInspector {
 				throw new Exception("Undefined Header type");	
 		}
 	}
-}
+	
+	/**
+	 * Read HttpServletRequest Payload
+	 * >>> 테스트 못해봄 
+	 * >>> http://stackoverflow.com/questions/14525982/getting-request-payload-from-post-request-in-java-servlet
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getBody(HttpServletRequest request) throws IOException {
+	    StringBuilder sb = new StringBuilder();
+	    BufferedReader br = null;
+	    try {
+	        InputStream inputStream = request.getInputStream();
+	        if (inputStream != null) {
+	        	br = new BufferedReader(new InputStreamReader(inputStream));
+	            char[] charBuffer = new char[128];
+	            int bytesRead = -1;
+	            while ((bytesRead = br.read(charBuffer)) > 0) {
+	            	sb.append(charBuffer, 0, bytesRead);
+	            }
+	        } else {
+	        	sb.append("");
+	        }
+	    } catch (IOException ex) {
+	        throw ex;
+	    } finally {
+	        if (br != null) {
+	            try {
+	            	br.close();
+	            } catch (IOException ex) {
+	                throw ex;
+	            }
+	        }
+	    }
+	    return sb.toString();
+	}
+};
